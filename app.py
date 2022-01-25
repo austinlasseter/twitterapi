@@ -24,7 +24,7 @@ app.title=tabtitle
 
 ###########Layout0#############
 app.layout = html.Div(children=[
-    html.H1("# searches with Twitter's API"),
+    html.H1("keyword searches with Twitter's API"),
     html.Div(children=[
         dcc.Input(id='input-1-state', value=placeholderinput, type='text'),
         html.Button(id='submit-button-state', n_clicks=0, children='Submit'),
@@ -43,7 +43,7 @@ app.layout = html.Div(children=[
 
 
 ########### Callback ###########
-@app.callback(Output('figure', 'children'),
+@app.callback(Output('output-state', 'figure'),
               Input('input-1-state', 'value'),
              )
 
