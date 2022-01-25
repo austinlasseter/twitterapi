@@ -3,7 +3,6 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
-from helpers import *
 import requests
 import os
 import json
@@ -27,7 +26,7 @@ app.layout = html.Div(children=[
     html.H1("keyword searches with Twitter's API"),
     html.Div(children=[
         dcc.Input(id='input-1-state', value=placeholderinput, type='text'),
-        html.Button(id='submit-button-state', n_clicks=0, children='Submit'),
+        html.Button('Enter', id='submit-button-state', n_clicks=0, children='Submit'),
         html.Div(id='output-state'),
         dcc.Graph(id='figure'),
     ], classname='twelve columns'),
@@ -43,11 +42,11 @@ app.layout = html.Div(children=[
 
 
 ########### Callback ###########
-@app.callback(Output('output-state', 'figure'),
+@app.callback(Output('figure', 'children'),
               Input('input-1-state', 'value'),
              )
 
-### Is the correct variable for the parens?
+### Is this the correct variable for the parens?
 def update_output(Input):
 
     bearer_token = "AAAAAAAAAAAAAAAAAAAAAC2eYQEAAAAA1idxHQ1U4YFvQO2kiDSrOlW2GRI%3DAFAvR8Gb8M6CjKEJMzFdlY37o1tb1QzHUZ1OgLwTbWu7GLKap0"
@@ -71,7 +70,7 @@ def update_output(Input):
             #raise Exception(response.status_code, response.text)
         return response.json()
 
-    def main():
+    def generate_output():
         json_response = connect_to_endpoint(search_url, query_params)
         #print(json.dumps(json_response, indent=4, sort_keys=True))
         tweetdict = json_response["data"]
