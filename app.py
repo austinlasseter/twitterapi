@@ -65,9 +65,9 @@ def update_output(Input):
 
     def connect_to_endpoint(url, params):
         response = requests.get(url, auth=bearer_oauth, params=params)
-        print(response.status_code)
-        if response.status_code != 200:
-            raise Exception(response.status_code, response.text)
+        #print(response.status_code)
+        #if response.status_code != 200:
+            #raise Exception(response.status_code, response.text)
         return response.json()
 
     def main():
