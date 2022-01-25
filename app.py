@@ -43,7 +43,7 @@ app.layout = html.Div(children=[
 
 ########### Callback ###########
 @app.callback(Output('figure', 'children'),
-              Input('input-1-state', 'value')],
+              Input('input-1-state', 'value'),
              )
 
 ### Is the correct variable for the parens?
