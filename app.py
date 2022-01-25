@@ -14,6 +14,7 @@ import json
 tabtitle = 'Twitter API MDS'
 sourceurl = 'www.twitter.com'
 githublink = 'https://github.com/shepparjani/twitterapi.git'
+placeholderinput = "#collectiveashbery"
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -25,7 +26,7 @@ app.title=tabtitle
 app.layout = html.Div(children=[
     html.H1("# searches with Twitter's API"),
     html.Div(children=[
-        dcc.Input(id='input-1-state', type='text', value='#collectiveashbery'),
+        dcc.Input(id='input-1-state', value=placeholderinput, type='text'),
         html.Button(id='submit-button-state', n_clicks=0, children='Submit'),
         html.Div(id='output-state'),
         dcc.Graph(id='figure'),
