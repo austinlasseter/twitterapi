@@ -3,8 +3,17 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-app = dash.Dash(__name__)
+### Define some variables
+tabtitle = "tweetsearch"
 
+########### Initiate the app
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
+app.title=tabtitle
+
+
+#### layout
 app.layout = html.Div([
     html.H6("Change the value in the text box to see callbacks in action!"),
     html.Div([
