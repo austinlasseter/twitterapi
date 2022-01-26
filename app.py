@@ -22,14 +22,13 @@ server = app.server
 app.title=tabtitle
 
 ###########Layout0#############
-app.layout = html.Div(children=[
+app.layout = html.Div([
     html.H1("keyword searches with Twitter's API"),
-    html.Div(children=[
-        dcc.Input(id='input-1-state', value=placeholderinput, type='text'),
-        html.Button('Enter', id='submit-button-state', n_clicks=0, children='Submit'),
-        html.Div(id='output-state'),
-        dcc.Graph(id='figure'),
-    ], classname='twelve columns'),
+    html.Div(dcc.Input(id='input-1', value=placeholderinput, type='text')),
+        html.Button('Submit', id='submit-button', n_clicks=0),
+        html.Div(id='container-button-basic',
+                children="Enter a #search and press submit"),
+        dcc.Graph(id='my-graph'),
 
     # Footer
     html.Br(),
@@ -42,8 +41,9 @@ app.layout = html.Div(children=[
 
 
 ########### Callback ###########
-@app.callback(Output('figure', 'children'),
-              Input('input-1-state', 'value'),
+@app.callback(Output('my-graph', 'figure'),
+              [Input('submit-button', 'n_clicks')],
+              [State('input-1', 'value')]
              )
 
 ### Is this the correct variable for the parens?
