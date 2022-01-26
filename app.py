@@ -24,11 +24,9 @@ app.title=tabtitle
 ###########Layout#############
 app.layout = html.Div([
     html.H1("keyword searches with Twitter's API"),
-    html.Div(dcc.Input(id='input-1', value=placeholderinput, type='text')),
-        html.Button('Submit', id='submit-val', n_clicks=0),
-        html.Div(id='container-button-basic',
-                children="Enter a #search and press submit"),
-        dcc.Graph(id='my-graph'),
+    dcc.Input(id='input-1-state', type='text', value='#collectiveashbery'),
+    html.Button(id='submit-button-state', n_clicks=0, children='Submit'),
+    html.Div(id='output-state')
 
     # Footer
     html.Br(),
@@ -36,18 +34,17 @@ app.layout = html.Div([
     html.A('Code on Github', href=githublink),
     html.Br(),
     html.A("Data Source", href=sourceurl),
-    ]
-)
+])
 
 
 ########### Callback ###########
-@app.callback(Output('my-graph', 'figure'),
-              [Input('submit-val', 'n_clicks')],
-              [State('input-1', 'value')]
+@app.callback(Output('output-state', 'children'),
+              [Input('submit-button-state', 'n_clicks')],
+              [State('input-1-state', 'value')]
              )
 
 ### Is this the correct variable for the parens?
-def update_output(Input):
+def update_output(n_clicks, input1):
 
     bearer_token = "AAAAAAAAAAAAAAAAAAAAAC2eYQEAAAAA1idxHQ1U4YFvQO2kiDSrOlW2GRI%3DAFAvR8Gb8M6CjKEJMzFdlY37o1tb1QzHUZ1OgLwTbWu7GLKap0"
     search_url = "https://api.twitter.com/2/tweets/search/recent"
