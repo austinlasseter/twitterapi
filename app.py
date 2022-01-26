@@ -52,7 +52,24 @@ def update_output(Input):
     bearer_token = "AAAAAAAAAAAAAAAAAAAAAC2eYQEAAAAA1idxHQ1U4YFvQO2kiDSrOlW2GRI%3DAFAvR8Gb8M6CjKEJMzFdlY37o1tb1QzHUZ1OgLwTbWu7GLKap0"
     search_url = "https://api.twitter.com/2/tweets/search/recent"
     ### Question: is the below how I'd insert the reference to user input? i.e. 'query': 'input-1-state'? replaced the "#collectiveashbery"placeholder
-    query_params = {'query': 'input-1-state','tweet.fields': 'author_id','user.fields': 'location', 'max_results': 25}
+    query_params = {'query': 'input-1','tweet.fields': 'author_id','user.fields': 'location', 'max_results': 25}
+    if n_clicks==0:
+        return base_fig()
+    elif n_clicks>=1:
+        return generate_output()
+
+    ########### Set up the default figures ######
+
+    def base_fig():
+        data=go.Table(columnwidth = [200,200,1000],
+                        header=dict(values=['author_id', 'id', 'text'], align=['left']),
+                        cells=dict(align=['left'],
+                                values=[['waiting for data','waiting for data','waiting for data'],
+                                       ['waiting for data','waiting for data','waiting for data'],
+                                       ['waiting for data','waiting for data','waiting for data']])
+                 )
+    fig = go.Figure([data])
+    return fig
 
     def bearer_oauth(r):
         """
