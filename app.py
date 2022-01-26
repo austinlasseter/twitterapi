@@ -24,7 +24,7 @@ app.title=tabtitle
 ###########Layout#############
 app.layout = html.Div(children=[
     html.H1("keyword searches with Twitter's API"),
-    html.Div(children=[])
+    html.Div(children=[
         dcc.Input(id='input-1-state', type='text', value='#collectiveashbery'),
         html.Button(id='submit-button-state', n_clicks=0, children='Submit'),
         html.Div(id='output-state'),
