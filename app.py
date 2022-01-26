@@ -66,8 +66,8 @@ def update_output(n_clicks, children):
                                        ['waiting for data','waiting for data','waiting for data'],
                                        ['waiting for data','waiting for data','waiting for data']])
                  )
-        fig = go.Figure([data])
-        return fig
+                 fig = go.Figure([data])
+                 return fig
 
     def bearer_oauth(r):
         """
