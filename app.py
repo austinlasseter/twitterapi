@@ -26,7 +26,7 @@ app.layout = html.Div([
     html.H1("keyword searches with Twitter's API"),
     dcc.Input(id='input-1-state', type='text', value='#collectiveashbery'),
     html.Button(id='submit-button-state', n_clicks=0, children='Submit'),
-    html.Div(id='output-state')
+    html.Div(id='output-state'),
 
     # Footer
     html.Br(),
