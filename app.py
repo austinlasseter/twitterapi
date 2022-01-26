@@ -7,6 +7,10 @@ import requests
 import os
 import json
 
+import pandas as pd
+
+
+
 
 ########### Define a few variables ######
 
@@ -14,6 +18,58 @@ tabtitle = 'Twitter API MDS'
 sourceurl = 'www.twitter.com'
 githublink = 'https://github.com/shepparjani/twitterapi.git'
 placeholderinput = ""
+
+
+########### Set up the default figures ######
+
+def base_fig():
+    data=go.Table(columnwidth = [200,200,1000],
+                    header=dict(values=['author_id', 'id', 'text'], align=['left']),
+                    cells=dict(align=['left'],
+                               values=[[1,2,3],
+                                       [1,2,3],
+                                       ['waiting for data','waiting for data','waiting for data']])
+                 )
+    fig = go.Figure([data])
+    return fig
+
+########## Authorization ############
+def bearer_oauth(r):
+    """
+    Method required by bearer token authentication.
+    """
+    bearer_token = "AAAAAAAAAAAAAAAAAAAAAC2eYQEAAAAA1idxHQ1U4YFvQO2kiDSrOlW2GRI%3DAFAvR8Gb8M6CjKEJMzFdlY37o1tb1QzHUZ1OgLwTbWu7GLKap0"
+
+
+    r.headers["Authorization"] = f"Bearer {bearer_token}"
+    r.headers["User-Agent"] = "v2RecentSearchPython"
+    return r
+
+def connect_to_endpoint(url, params):
+    response = requests.get(url, auth=bearer_oauth, params=params)
+    #print(response.status_code)
+    #if response.status_code != 200:
+        #raise Exception(response.status_code, response.text)
+    return response.json()
+
+def generate_output(search_url, query_params):
+    json_response = connect_to_endpoint(search_url, query_params)
+    #print(json.dumps(json_response, indent=4, sort_keys=True))
+    tweetdict = json_response["data"]
+    tweetdf = pd.DataFrame(tweetdict)
+
+    #set up table
+    data=go.Table(columnwidth = [200,200,1000],
+                    header=dict(values=tweetdf.columns, align=['left']),
+                    cells=dict(align=['left'],
+                               values=[tweetdf['author_id'].values,
+                                       tweetdf['id'].values,
+                                       tweetdf['text'].values])
+                 )
+    figure = go.Figure([data])
+    return figure
+
+
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -50,63 +106,15 @@ app.layout = html.Div(children=[
 ### Is this the correct variable for the parens?
 def update_output(n_clicks, children):
 
-    bearer_token = "AAAAAAAAAAAAAAAAAAAAAC2eYQEAAAAA1idxHQ1U4YFvQO2kiDSrOlW2GRI%3DAFAvR8Gb8M6CjKEJMzFdlY37o1tb1QzHUZ1OgLwTbWu7GLKap0"
     search_url = "https://api.twitter.com/2/tweets/search/recent"
     ### Question: is the below how I'd insert the reference to user input? i.e. 'query': 'input-1-state'? replaced the "#collectiveashbery"placeholder
-    query_params = {'query': 'input-1','tweet.fields': 'author_id','user.fields': 'location', 'max_results': 25}
+    query_params = {'query': children,'tweet.fields': 'author_id','user.fields': 'location', 'max_results': 25}
 
 
-    ########### Set up the default figures ######
-
-    def base_fig():
-        data=go.Table(columnwidth = [200,200,1000],
-                        header=dict(values=['author_id', 'id', 'text'], align=['left']),
-                        cells=dict(align=['left'],
-                                   values=[[1,2,3],
-                                           [1,2,3],
-                                           ['waiting for data','waiting for data','waiting for data']])
-                     )
-        fig = go.Figure([data])
-        return fig
-
-    ########## Authorization ############
-    def bearer_oauth(r):
-        """
-        Method required by bearer token authentication.
-        """
-
-        r.headers["Authorization"] = f"Bearer {bearer_token}"
-        r.headers["User-Agent"] = "v2RecentSearchPython"
-        return r
-
-    def connect_to_endpoint(url, params):
-        response = requests.get(url, auth=bearer_oauth, params=params)
-        #print(response.status_code)
-        #if response.status_code != 200:
-            #raise Exception(response.status_code, response.text)
-        return response.json()
-
-    def generate_output():
-        json_response = connect_to_endpoint(search_url, query_params)
-        #print(json.dumps(json_response, indent=4, sort_keys=True))
-        tweetdict = json_response["data"]
-        tweetdf = pd.DataFrame(tweetdict)
-
-        #set up table
-        data=go.Table(columnwidth = [200,200,1000],
-                        header=dict(values=tweetdf.columns, align=['left']),
-                        cells=dict(align=['left'],
-                                   values=[tweetdf['author_id'].values,
-                                           tweetdf['id'].values,
-                                           tweetdf['text'].values])
-                     )
-        figure = go.Figure([data])
-        return figure
-
-        if n_clicks==0:
-            return base_fig()
-        elif n_clicks>=1:
-            return generate_output()
+    if n_clicks==0:
+        return base_fig()
+    elif n_clicks>=1:
+        return generate_output(search_url, query_params)
 
 ############ Deploy
 if __name__ == '__main__':
