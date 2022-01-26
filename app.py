@@ -59,15 +59,16 @@ def update_output(n_clicks, children):
     ########### Set up the default figures ######
 
     def base_fig():
-        data=go.Table(columnwidth = [200,200,1000],
-                        header=dict(values=['author_id', 'id', 'text'], align=['left']),
-                        cells=dict(align=['left'],
-                                values=[['waiting for data','waiting for data','waiting for data'],
-                                       ['waiting for data','waiting for data','waiting for data'],
+        def base_fig():
+    data=go.Table(columnwidth = [200,200,1000],
+                    header=dict(values=['author_id', 'id', 'text'], align=['left']),
+                    cells=dict(align=['left'],
+                               values=[[1,2,3],
+                                       [1,2,3],
                                        ['waiting for data','waiting for data','waiting for data']])
                  )
-                 fig = go.Figure([data])
-                 return fig
+    fig = go.Figure([data])
+    return fig
 
     def bearer_oauth(r):
         """
