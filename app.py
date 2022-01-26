@@ -13,7 +13,7 @@ import json
 tabtitle = 'Twitter API MDS'
 sourceurl = 'www.twitter.com'
 githublink = 'https://github.com/shepparjani/twitterapi.git'
-placeholderinput = "#collectiveashbery"
+placeholderinput = ""
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -21,11 +21,11 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 app.title=tabtitle
 
-###########Layout0#############
+###########Layout#############
 app.layout = html.Div([
     html.H1("keyword searches with Twitter's API"),
     html.Div(dcc.Input(id='input-1', value=placeholderinput, type='text')),
-        html.Button('Submit', id='submit-button', n_clicks=0),
+        html.Button('Submit', id='submit-val', n_clicks=0),
         html.Div(id='container-button-basic',
                 children="Enter a #search and press submit"),
         dcc.Graph(id='my-graph'),
@@ -42,7 +42,7 @@ app.layout = html.Div([
 
 ########### Callback ###########
 @app.callback(Output('my-graph', 'figure'),
-              [Input('submit-button', 'n_clicks')],
+              [Input('submit-val', 'n_clicks')],
               [State('input-1', 'value')]
              )
 
