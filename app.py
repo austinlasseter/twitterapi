@@ -54,10 +54,7 @@ def update_output(n_clicks, children):
     search_url = "https://api.twitter.com/2/tweets/search/recent"
     ### Question: is the below how I'd insert the reference to user input? i.e. 'query': 'input-1-state'? replaced the "#collectiveashbery"placeholder
     query_params = {'query': 'input-1','tweet.fields': 'author_id','user.fields': 'location', 'max_results': 25}
-    if n_clicks==0:
-        return base_fig()
-    elif n_clicks>=1:
-        return generate_output()
+
 
     ########### Set up the default figures ######
 
@@ -104,6 +101,11 @@ def update_output(n_clicks, children):
                      )
         figure = go.Figure([data])
         return figure
+
+        if n_clicks==0:
+            return base_fig()
+        elif n_clicks>=1:
+            return generate_output()
 
 ############ Deploy
 if __name__ == '__main__':
